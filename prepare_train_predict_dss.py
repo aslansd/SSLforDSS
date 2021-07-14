@@ -295,7 +295,7 @@ def prepare_train_predict_dss(*, data_dir: str, y_suffix: str = '',
 if __name__ == '__main__':
     
     prepare_train_predict_dss(data_dir = 'dat.raw/', y_suffix = '',
-                              save_dir = 'parameter_search_new', save_prefix = '', save_name_pretrained = 'parameter_search_new/256_10_20210626_023930',  # 32_10_20210624_131826 # 64_10_20210628_002554 # 128_10_20210625_160355 # 256_10_20210626_023930 
+                              save_dir = 'parameter_search', save_prefix = '', save_name_pretrained = 'parameter_search_new_2/128_5_20210630_134536',  # 32_5_20210630_134103 # 64_5_20210630_134536 # 128_5_20210630_134536 # 256_5_20210630_134536
                               model_name = 'tcn', nb_filters = 16, kernel_size = 16,
                               nb_conv = 3, use_separable = False, nb_hist = 4096,
                               ignore_boundaries = True, batch_norm = True,
@@ -308,4 +308,4 @@ if __name__ == '__main__':
                               tensorboard = False, log_messages = False,
                               nb_stacks = 2, with_y_hist = True, x_suffix = '',
                               dilations = [1, 2, 4, 8, 16], activation = 'norm_relu', use_skip_connections = True, dropout_rate = 0.00, padding = 'same',
-                              early_stop_epoch = 20, gru_units = 256, dropout = 0.2, neg = 10, steps = 5)
+                              early_stop_epoch = 20, gru_units = 128, dropout = 0.2, neg = 10, steps = 5)

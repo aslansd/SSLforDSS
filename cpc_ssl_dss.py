@@ -682,8 +682,7 @@ class CPCModel(ModelBase):
         
         utils.save_params(config, config['save_name'])
         
-        adam = Adam(lr = self.learning_rate)
-        self.model_training.compile(optimizer = adam, loss = {'Contrastive_Loss': lambda y_true, y_pred: y_pred})
+        self.model_training.compile(optimizer = Adam(lr = self.learning_rate, amsgrad = True, clipnorm = 1.0), loss = {'Contrastive_Loss': lambda y_true, y_pred: y_pred}, sample_weight_mode = self.sample_weight_mode)
           
         # Callbacks for training
         callbacks = [ModelCheckpoint(self.checkpoint_save_name, save_best_only = True, save_weights_only = False, monitor = 'val_loss', verbose = self.verbose), EarlyStopping(monitor = 'val_loss', patience = self.early_stop_epoch)]
@@ -718,58 +717,25 @@ class CPCModel(ModelBase):
         self.save_name = config['save_name']
         self.model_prediction.compile(optimizer = Adam(lr = self.learning_rate, amsgrad = True, clipnorm = 1.0), loss = "categorical_crossentropy", sample_weight_mode = self.sample_weight_mode)
         
-        fraction_rate = 50
-        data_size = self.test_gen['x'].shape[0]
-        conf_mat = np.zeros((2, 2))
-       
-        for i in range(1):
-            gc.collect()
-            print('Fraction ' + str(i + 1))
-            
-            data_start_index = int(data_size // fraction_rate * i)
-            data_end_index = int(data_size // fraction_rate * (i + 1))
-                                
-            logging.info('Predicting')        
-            x_test_temp, y_test_temp, y_pred_temp = evaluate.evaluate_probabilities(x = self.test_gen['x'][data_start_index:data_end_index], y = self.test_gen['y'][data_start_index:data_end_index], model = self.model_prediction, params = config)
-               
-            labels_test_temp = predict.labels_from_probabilities(y_test_temp)
-            labels_pred_temp = predict.labels_from_probabilities(y_pred_temp)
-            
-            logging.info('Evaluating')
-            conf_mat_temp = sklearn.metrics.confusion_matrix(labels_test_temp, labels_pred_temp)
-            conf_mat = conf_mat + conf_mat_temp
-            logging.info(conf_mat_temp)
-                
-            if i == 0:
-                x_test = copy.deepcopy(x_test_temp) 
-                y_test = copy.deepcopy(y_test_temp)
-                y_pred = copy.deepcopy(y_pred_temp)
-                
-                labels_test = copy.deepcopy(labels_test_temp)
-                labels_pred = copy.deepcopy(labels_pred_temp)
-            
-            elif i > 0:
-                x_test = np.concatenate((x_test, x_test_temp)) 
-                y_test = np.concatenate((y_test, y_test_temp))
-                y_pred = np.concatenate((y_pred, y_pred_temp))
-                
-                labels_test = np.concatenate((labels_test, labels_test_temp))
-                labels_pred = np.concatenate((labels_pred, labels_pred_temp))
-        
-        labels = np.arange(len(self.class_names))
-        report = sklearn.metrics.classification_report(labels_test, labels_pred, labels = labels, target_names = self.class_names, digits = 3)
-        
+        logging.info('Predicting')
+        x_test, y_test, y_pred = evaluate.evaluate_probabilities(x = self.test_gen['x'], y = self.test_gen['y'], model = self.model_prediction, params = config)
+
+        labels_test = predict.labels_from_probabilities(y_test)
+        labels_pred = predict.labels_from_probabilities(y_pred)
+
+        logging.info('Evaluating')
+        conf_mat, report = evaluate.evaluate_segments(labels_test, labels_pred, config['class_names'])
         logging.info(conf_mat)
         logging.info(report)
-            
+
         save_filename = "{0}_results.h5".format(self.save_name)
-        logging.info('saving to ' + save_filename)
+        logging.info('Saving to ' + save_filename + '.')
         d = {'confusion_matrix': conf_mat,
-              'classification_report': report,
-              'x_test': x_test,
-              'y_test': y_test,
-              'y_pred': y_pred,
-              'labels_test': labels_test,
-              'labels_pred': labels_pred}
-    
+             'classification_report': report,
+             'x_test': x_test,
+             'y_test': y_test,
+             'y_pred': y_pred,
+             'labels_test': labels_test,
+             'labels_pred': labels_pred}
+
         fl.save(save_filename, d)

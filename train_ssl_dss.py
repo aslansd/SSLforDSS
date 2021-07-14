@@ -139,27 +139,24 @@ def train_ssl_dss(*, data_dir: str, y_suffix: str = '',
                     Defaults to 10.
        """
     
-    # Configuration
-    params = locals()
-    
     if log_messages:
         logging.basicConfig(level = logging.INFO)
 
-    params['sample_weight_mode'] = None
+    sample_weight_mode = None
     data_padding = 0
     
     if with_y_hist:  # Regression
-        params['return_sequences'] = True
+        return_sequences = True
         stride = nb_hist
         y_offset = 0
-        params['sample_weight_mode'] = 'temporal'
+        sample_weight_mode = 'temporal'
         
         if ignore_boundaries:
             data_padding = int(np.ceil(kernel_size * nb_conv))  # This does not completely avoid boundary effects but should minimize them sufficiently
             stride = stride - 2 * data_padding
     
     else:  # Classification
-        params['return_sequences'] = False
+        return_sequences = False
         stride = 1  # Should take every sample, since sampling rates of both x and y are now the same
         y_offset = int(round(nb_hist / 2))
 
@@ -170,6 +167,8 @@ def train_ssl_dss(*, data_dir: str, y_suffix: str = '',
 
     if len(save_prefix):
         save_prefix = save_prefix + '_'
+        
+    params = locals()
 
     if stride <= 0:
         raise ValueError('Stride <= 0 - needs to be > 0. Possible solutions: reduce kernel_size, increase nb_hist parameters, uncheck ignore_boundaries.')
@@ -240,18 +239,18 @@ def train_ssl_dss(*, data_dir: str, y_suffix: str = '',
     
 if __name__ == '__main__':
     
-    train_ssl_dss(data_dir = 'dat/dmel_single_raw.npy', y_suffix = '', # dat/dmel_single_raw.npy # dat/dmel_single_stern_raw_manualp.npy
+    train_ssl_dss(data_dir = 'dat/dmel_single_stern_raw_manualp.npy', y_suffix = '', # dat/dmel_single_raw.npy # dat/dmel_single_stern_raw_manualp.npy
                   save_dir = 'parameter_search', save_prefix = '',
                   model_name = 'tcn', nb_filters = 16, kernel_size = 16,
-                  nb_conv = 3, use_separable = False, nb_hist = 4096,
-                  ignore_boundaries = True, batch_norm = True,
+                  nb_conv = 3, use_separable = False, nb_hist = 600,
+                  ignore_boundaries = False, batch_norm = True,
                   nb_pre_conv = 0,
                   pre_kernel_size = 3, pre_nb_filters = 16, pre_nb_conv = 2,
                   verbose = 1, batch_size = 32,
-                  nb_epoch = 20,
+                  nb_epoch = 10,
                   learning_rate = 0.0001, reduce_lr = False, reduce_lr_patience = 5,
                   fraction_data = None, seed = None, batch_level_subsampling = False,
                   tensorboard = False, log_messages = False,
                   nb_stacks = 2, with_y_hist = True, x_suffix = '',
                   dilations = [1, 2, 4, 8, 16], activation = 'norm_relu', use_skip_connections = True, dropout_rate = 0.00, padding = 'same',
-                  early_stop_epoch = 20, gru_units = 256, dropout = 0.2, neg = 10, steps = 5)
+                  early_stop_epoch = 20, gru_units = 128, dropout = 0.2, neg = 10, steps = 5)
