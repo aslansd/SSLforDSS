@@ -13,7 +13,7 @@ The aim of SSLforDSS is to come up with the best representations across deep hie
 
 Download the files of this repository and run them in an environment which dss was already installed. There is no need to any other python modules to be installed.
 
-Here are the brief descriptions of the five python modues of this repository. To run the codes over above data, just uncomment the designated lines.
+Here are the brief descriptions of the five python modules of this repository. To run the codes over above data, just uncomment the designated lines.
 
 1) `cpc_ssl_dss`: it provides the classes and methods for contrastive predictive coding model.
 2) `train_ssl_dss`: it performs contrastive predictive coding on our available data. The parameters of dss and cpc are optimized in each case to have the best performance on the available data.
