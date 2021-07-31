@@ -353,6 +353,7 @@ if __name__ == '__main__':
             else:
                 save_tag = str(fraction_data)
             
+            # Multi-channel flies data
             train_dss(data_type = 'flies_multi_channels', data_dir = 'dat/dmel_multi_murthy_raw_manual_sine.npy', y_suffix = '',
                       save_dir = 'parameter_search_flies_multichannels_steps=1', save_prefix = 'flies_' + str(gru_units) + '_' + save_tag,
                       checkpoint_save_name = 'parameter_search_flies_multichannels_steps=1/flies_' + str(gru_units) + '_model.h5',                      
@@ -370,6 +371,7 @@ if __name__ == '__main__':
                       dilations = [1, 2, 4, 8, 16], activation = 'norm_relu', use_skip_connections = True, dropout_rate = 0.00, padding = 'same',
                       early_stop_epoch = 20, gru_units = gru_units, dropout = 0.2, neg = 10, steps = 1)
             
+            # Single-channel flies data
             # train_dss(data_type = 'flies_single_channel', data_dir = 'dat/dmel_single_raw.npy', y_suffix = '',
             #           save_dir = 'parameter_search_flies_singlechannel_steps=1', save_prefix = 'flies_' + str(gru_units) + '_' + save_tag,
             #           checkpoint_save_name = 'parameter_search_flies_singlechannel_steps=1/flies_' + str(gru_units) + '_model.h5',
@@ -387,6 +389,7 @@ if __name__ == '__main__':
             #           dilations = [1, 2, 4, 8, 16], activation = 'norm_relu', use_skip_connections = True, dropout_rate = 0.00, padding = 'same',
             #           early_stop_epoch = 20, gru_units = gru_units, dropout = 0.2, neg = 10, steps = 1)
             
+            # Single-channel birds data
             # train_dss(data_type = 'birds_single_channel', data_dir = 'dat/bengfin_single_sober_syllables_allInd_clean.npy', y_suffix = '',
             #           save_dir = 'parameter_search_birds_steps=100', save_prefix = 'birds_' + str(gru_units) + '_' + save_tag,
             #           checkpoint_save_name = 'parameter_search_birds_steps=100/birds_' + str(gru_units) + '_model.h5',

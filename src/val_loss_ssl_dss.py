@@ -1,17 +1,17 @@
 import matplotlib.pyplot as plt
 import scipy.io
 
-# parent_folder = 'parameter_search_flies_multichannels_steps=1'
-# variable_tag_1 = 'flies'
-# variable_tag_2 = 'multichannels'
+parent_folder = 'parameter_search_flies_multichannels_steps=1'
+variable_tag_1 = 'flies'
+variable_tag_2 = 'multichannels'
 
 # parent_folder = 'parameter_search_flies_singlechannel_steps=1'
 # variable_tag_1 = 'flies'
 # variable_tag_2 = 'singlechannel'
 
-parent_folder = 'parameter_search_birds_steps=100'
-variable_tag_1 = 'birds'
-variable_tag_2 = 'singlechannel'
+# parent_folder = 'parameter_search_birds_steps=100'
+# variable_tag_1 = 'birds'
+# variable_tag_2 = 'singlechannel'
 
 if variable_tag_1 == 'flies':
     steps = 10
