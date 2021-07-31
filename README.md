@@ -6,7 +6,7 @@ Here we provide the codes using constrastive predictive coding (cpc) [1] as a se
 To use this repository you should be already familiar with dss package (https://github.com/janclemenslab/deepss and https://github.com/janclemenslab/deepss_docs). Moreover, you should have access to some animal song data.
 
 Contrastive predictive coding was developed as a universal un- or self-supervised learning approach to extract useful representations from high-dimensional data. It accomplishes this by predicting the future in latent space using powerful autoregressive models, nagative samples, and a probabilistic contrastive loss.
-For more information regarding this approach, please refer to the original paper [1]. We used the implementation provided in this repository: https://github.com/SPEECHCOG/pc_models_analysis
+For more information regarding this approach, please refer to the original paper [1]. We used the implementation provided in this repository: https://github.com/SPEECHCOG/pc_models_analysis.
 
 Here we bring the results for three different data of animal songs: 1) multi_channel flies data, 2) single-channel flies data, 3) single-channel birds data.
 The aim of SSLforDSS is to come up with the best representations across deep hierarchy using unlabeled data to decrease the amount of required labeled data for subsequent training.
