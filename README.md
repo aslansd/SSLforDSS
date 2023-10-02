@@ -2,7 +2,7 @@
 
 Here we provide the codes using constrastive predictive coding (cpc) [1] as a self-supervised learning method (ssl) to increase sample-efficiency of DeepSongSegmenter package [2] which was developed for segmentation of animal songs.
 
-## Instructions:
+## Instructions
 To use this repository you should be already familiar with dss package (https://github.com/janclemenslab/deepss). Moreover, you should have access to some animals' song data.
 
 Contrastive predictive coding was developed as a universal un- or self-supervised learning approach to extract useful representations from high-dimensional data. It accomplishes this by predicting the future in latent space using powerful autoregressive models, nagative samples, and a probabilistic contrastive loss.
