@@ -1,6 +1,6 @@
 # SSLforDSS
 
-Here we provide the codes using constrastive predictive coding (cpc) [1] as a self-supervised learning method (ssl) to increase sample-efficiency of DeepSongSegmenter package [2] which was developed for segmentation of animal songs.
+Here we provide the codes using contrastive predictive coding (cpc) [1] as a self-supervised learning method (ssl) to increase sample-efficiency of DeepSongSegmenter package [2] which was developed for segmentation of animal songs.
 
 ## Instructions
 To use this repository you should be already familiar with dss package (https://github.com/janclemenslab/deepss). Moreover, you should have access to some animals' song data.
